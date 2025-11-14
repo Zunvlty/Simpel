@@ -345,6 +345,7 @@ const carsData = [
         name: "Lamborghini Huracan",
         type: "supercar",
         image: "LAMBORGHINI HURACAN.jpeg",
+        specs: {
             engine: "5.2L V10",
             power: "602 HP",
             transmission: "7-Speed Dual-Clutch",
