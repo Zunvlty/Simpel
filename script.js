@@ -1,5 +1,3 @@
-// script.js -
-
 // DOM Elements
 const carsContainer = document.getElementById('cars-container');
 const recommendedCarsContainer = document.getElementById('recommended-cars');
