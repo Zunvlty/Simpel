@@ -1,4 +1,4 @@
-// script.js - VERSION DENGAN FIREBASE
+// script.js -
 
 // DOM Elements
 const carsContainer = document.getElementById('cars-container');
@@ -49,7 +49,7 @@ const carsData = [
             transmission: "8-Speed PDK",
             seats: "4"
         },
-        price: 2500000,
+        price: 700000,
         available: 10,
         featured: true
     },
@@ -64,7 +64,7 @@ const carsData = [
             transmission: "8-Speed Automatic",
             seats: "4"
         },
-        price: 2800000,
+        price: 450000,
         available: 10,
         featured: false
     },
@@ -79,7 +79,7 @@ const carsData = [
             transmission: "6-Speed Dual-Clutch",
             seats: "4"
         },
-        price: 2700000,
+        price: 355000,
         available: 10,
         featured: false
     },
@@ -94,7 +94,7 @@ const carsData = [
             transmission: "8-Speed Tiptronic",
             seats: "5"
         },
-        price: 3200000,
+        price: 450000,
         available: 10,
         featured: true
     },
@@ -109,7 +109,7 @@ const carsData = [
             transmission: "9-Speed AMG Speedshift",
             seats: "5"
         },
-        price: 3800000,
+        price: 450000,
         available: 10,
         featured: true
     },
@@ -124,7 +124,7 @@ const carsData = [
             transmission: "8-Speed PDK",
             seats: "4"
         },
-        price: 4200000,
+        price: 490000,
         available: 10,
         featured: false
     },
@@ -139,7 +139,7 @@ const carsData = [
             transmission: "8-Speed M Steptronic",
             seats: "5"
         },
-        price: 2900000,
+        price: 490000,
         available: 10,
         featured: false
     },
@@ -154,7 +154,7 @@ const carsData = [
             transmission: "8-Speed Tiptronic",
             seats: "5"
         },
-        price: 3500000,
+        price: 350000,
         available: 10,
         featured: true
     },
@@ -169,7 +169,7 @@ const carsData = [
             transmission: "9-Speed AMG Speedshift",
             seats: "5"
         },
-        price: 3300000,
+        price: 460000,
         available: 10,
         featured: false
     },
@@ -184,7 +184,7 @@ const carsData = [
             transmission: "10-Speed Automatic",
             seats: "4"
         },
-        price: 2600000,
+        price: 450000,
         available: 10,
         featured: false
     },
@@ -201,7 +201,7 @@ const carsData = [
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 4500000,
+        price: 600000,
         available: 10,
         featured: true
     },
@@ -216,7 +216,7 @@ const carsData = [
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 3500000,
+        price: 590000,
         available: 10,
         featured: false
     },
@@ -231,7 +231,7 @@ const carsData = [
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 3200000,
+        price: 400000,
         available: 10,
         featured: true
     },
@@ -246,7 +246,7 @@ const carsData = [
             transmission: "8-Speed Automatic",
             seats: "4"
         },
-        price: 4800000,
+        price: 480000,
         available: 10,
         featured: true
     },
@@ -261,7 +261,7 @@ const carsData = [
             transmission: "6-Speed Manual",
             seats: "2"
         },
-        price: 2200000,
+        price: 900000,
         available: 10,
         featured: false
     },
@@ -276,7 +276,7 @@ const carsData = [
             transmission: "8-Speed Automatic",
             seats: "2"
         },
-        price: 1800000,
+        price: 600000,
         available: 10,
         featured: false
     },
@@ -291,7 +291,7 @@ const carsData = [
             transmission: "8-Speed Automatic",
             seats: "2"
         },
-        price: 3100000,
+        price: 340000,
         available: 10,
         featured: true
     },
@@ -306,7 +306,7 @@ const carsData = [
             transmission: "8-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 2800000,
+        price: 490000,
         available: 10,
         featured: false
     },
@@ -321,7 +321,7 @@ const carsData = [
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 4200000,
+        price: 420000,
         available: 10,
         featured: true
     },
@@ -336,7 +336,7 @@ const carsData = [
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 5200000,
+        price: 520000,
         available: 10,
         featured: true
     },
@@ -346,44 +346,43 @@ const carsData = [
         id: 21,
         name: "Lamborghini Huracan",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
-        specs: {
+        image: "LAMBORGHINI HURACAN.jpeg",
             engine: "5.2L V10",
             power: "602 HP",
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 5000000,
+        price: 1950000,
         available: 10,
         featured: true
     },
     {
         id: 22,
-        name: "McLaren 720S",
+        name: "Astron Martin",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1627005087588-8c8350ae50a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+        image: "ASTON MARTIN DB11.jpeg",
         specs: {
             engine: "4.0L V8 Twin-Turbo",
             power: "710 HP",
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 6000000,
+        price: 1250000,
         available: 10,
         featured: true
     },
     {
         id: 23,
-        name: "Ferrari F8 Tributo",
+        name: "Audi R8 V10",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        image: "AUDI R8 V10.jpg",
         specs: {
             engine: "3.9L V8 Twin-Turbo",
             power: "710 HP",
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 6500000,
+        price: 900000,
         available: 10,
         featured: true
     },
@@ -391,104 +390,104 @@ const carsData = [
         id: 24,
         name: "Lamborghini Aventador",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+        image: "LAMBORGHINI AVENTADOR.jpeg",
         specs: {
             engine: "6.5L V12",
             power: "730 HP",
             transmission: "7-Speed ISR",
             seats: "2"
         },
-        price: 8500000,
+        price: 1900000,
         available: 10,
         featured: true
     },
     {
         id: 25,
-        name: "Bugatti Chiron",
+        name: "Bmw I8",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1627005087588-8c8350ae50a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+        image: "BMW i8.jpeg",
         specs: {
             engine: "8.0L Quad-Turbo W16",
             power: "1500 HP",
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 25000000,
+        price: 1200000,
         available: 10,
         featured: true
     },
     {
         id: 26,
-        name: "Koenigsegg Jesko",
+        name: "Chevrolet Corvette",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        image: "CHEVROLET CORVETTE.jpeg",
         specs: {
             engine: "5.0L Twin-Turbo V8",
             power: "1280 HP",
             transmission: "9-Speed Multi-Clutch",
             seats: "2"
         },
-        price: 18000000,
+        price: 1400000,
         available: 10,
         featured: true
     },
     {
         id: 27,
-        name: "Pagani Huayra",
+        name: "Nissan GTR R35",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+        image: "NISSAN GTR R35.jpg",
         specs: {
             engine: "6.0L Twin-Turbo V12",
             power: "730 HP",
             transmission: "7-Speed Sequential",
             seats: "2"
         },
-        price: 12000000,
+        price: 1250000,
         available: 10,
         featured: true
     },
     {
         id: 28,
-        name: "Aston Martin Valkyrie",
+        name: "McLaren 570s",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+        image: "MCLAREN 570S.jpeg",
         specs: {
             engine: "6.5L V12 Hybrid",
             power: "1160 HP",
             transmission: "7-Speed Sequential",
             seats: "2"
         },
-        price: 15000000,
+        price: 1500000,
         available: 10,
         featured: true
     },
     {
         id: 29,
-        name: "McLaren P1",
+        name: "Ferrari 488",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1627005087588-8c8350ae50a9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+        image: "FERARRI 488 GTB.jpg",
         specs: {
             engine: "3.8L V8 Twin-Turbo Hybrid",
             power: "903 HP",
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 9500000,
+        price: 1700000,
         available: 10,
         featured: true
     },
     {
         id: 30,
-        name: "Ferrari LaFerrari",
+        name: "Porshe 911",
         type: "supercar",
-        image: "https://images.unsplash.com/photo-1592198084033-aade902d1aae?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+        image: "PORSHE 911.jpeg",
         specs: {
             engine: "6.3L V12 Hybrid",
             power: "950 HP",
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 11000000,
+        price: 140000000,
         available: 10,
         featured: true
     }
