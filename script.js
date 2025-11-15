@@ -486,7 +486,7 @@ const carsData = [
             transmission: "7-Speed Dual-Clutch",
             seats: "2"
         },
-        price: 140000000,
+        price: 1400000,
         available: 10,
         featured: true
     }
