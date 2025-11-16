@@ -566,7 +566,7 @@ function updateAuthUI(user) {
     }
 }
 
-// Initialize the page
+// Initialize the page 
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Initializing website with Firebase...');
     
@@ -580,9 +580,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         once: true,
         offset: 100
     });
-  
+    
     try {
-        
+        // Cek jika Firebase tersedia
         if (typeof rentalService !== 'undefined') {
             await rentalService.loadCars();
             await rentalService.loadReviews();
@@ -608,7 +608,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     } catch (error) {
         console.error('Firebase initialization error:', error);
         // Fallback ke data lokal
-        displayCars(carsD data);
+        displayCars(carsData);
         displayRecommendedCars();
     }
     
@@ -627,6 +627,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Setup event listeners
     setupEventListeners();
 });
+
+// ==================== EXISTING FUNCTIONS (DIMODIFIKASI) ====================
 
 // Display cars in the grid
 function displayCars(cars) {
@@ -680,7 +682,7 @@ function displayCars(cars) {
 function displayRecommendedCars() {
     if (!recommendedCarsContainer) return;
     
-    // Gunakan data dari Firebase jika ada, atau data lokal
+    // Gunakan data dari lokal
     const carsToUse = (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) 
         ? rentalService.cars 
         : carsData;
@@ -713,7 +715,7 @@ function populateCarSelect() {
     
     carSelect.innerHTML = '<option value="">-- Pilih Mobil --</option>';
     
-    // Gunakan data dari Firebase jika ada, atau data lokal
+    // Gunakan data dari data lokal
     const carsToUse = (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) 
         ? rentalService.cars 
         : carsData;
@@ -734,7 +736,7 @@ function populateReviewVehicle() {
     
     reviewVehicle.innerHTML = '<option value="">-- Pilih Kendaraan --</option>';
     
-    // Gunakan data dari Firebase jika ada, atau data lokal
+    // Gunakan data dari data lokal
     const carsToUse = (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) 
         ? rentalService.cars 
         : carsData;
@@ -824,7 +826,7 @@ function calculatePrice() {
             return;
         }
         
-        // Cari mobil dari Firebase atau data lokal
+        // Cari mobil dari data lokal
         let selectedCar;
         if (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) {
             selectedCar = rentalService.cars.find(car => car.id === selectedCarId);
@@ -941,7 +943,7 @@ async function sendWhatsAppBooking() {
             return;
         }
         
-        // Cari mobil dari atau data lokal
+        // Cari mobil dari data lokal
         let selectedCar;
         if (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) {
             selectedCar = rentalService.cars.find(car => car.id === selectedCarId);
@@ -1047,7 +1049,7 @@ async function sendWhatsAppBooking() {
     confirmBookingBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Booking via WhatsApp';
 }
 
-// Fallback WhatsApp function (tanpa Firebase)
+// Fallback WhatsApp function
 function sendWhatsAppDirect(bookingData, totalPrice) {
     const message = `Halo LowRen Car's, saya ingin booking kendaraan:
 
@@ -1087,7 +1089,7 @@ function resetBookingForm() {
     confirmBookingBtn.disabled = true;
 }
 
-// Submit review - DIUBAH untuk Firebase
+// Submit review 
 async function submitReview(e) {
     e.preventDefault();
     
@@ -1101,7 +1103,7 @@ async function submitReview(e) {
         return;
     }
     
-    // Cari data kendaraan dari Firebase atau data lokal
+    // Cari data kendaraan dari data lokal
     let vehicle;
     if (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) {
         vehicle = rentalService.cars.find(car => car.id === vehicleId);
