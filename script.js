@@ -1,3 +1,5 @@
+// script.js - VERSION TANPA FIREBASE
+
 // DOM Elements
 const carsContainer = document.getElementById('cars-container');
 const recommendedCarsContainer = document.getElementById('recommended-cars');
@@ -534,43 +536,9 @@ let testimonials = [
     }
 ];
 
-// ==================== FIREBASE INTEGRATION ====================
-
-// Auth state management
-function updateAuthUI(user) {
-    const authElements = document.querySelectorAll('.auth-element');
-    const adminAccess = document.querySelector('.admin-access');
-    
-    if (user) {
-        // User logged in
-        authElements.forEach(el => {
-            el.style.display = 'none';
-        });
-        
-        if (adminAccess) {
-            adminAccess.innerHTML = `
-                <span>Halo, ${user.email}</span>
-                <button onclick="rentalService.logout()" class="btn-secondary">Logout</button>
-            `;
-        }
-    } else {
-        // User not logged in
-        authElements.forEach(el => {
-            el.style.display = 'block';
-        });
-        
-        if (adminAccess) {
-            adminAccess.innerHTML = `
-                <a href="#login" class="auth-element">Login</a>
-                <a href="#register" class="auth-element">Register</a>
-            `;
-        }
-    }
-}
-
-// Initialize the page dengan Firebase
-document.addEventListener('DOMContentLoaded', async function() {
-    console.log('Initializing website with Firebase...');
+// Initialize the page
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Initializing website...');
     
     // Set minimum date for pickup to today
     const today = new Date().toISOString().split('T')[0];
@@ -583,37 +551,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         offset: 100
     });
     
-    // ==================== FIREBASE INITIALIZATION ====================
-    try {
-        // Cek jika Firebase tersedia
-        if (typeof rentalService !== 'undefined') {
-            await rentalService.loadCars();
-            await rentalService.loadReviews();
-            
-            console.log('Firebase data loaded successfully');
-            
-            // Setup auth state listener
-            if (typeof auth !== 'undefined') {
-                auth.onAuthStateChanged((user) => {
-                    console.log('Auth state changed:', user);
-                    if (typeof rentalService !== 'undefined') {
-                        rentalService.currentUser = user;
-                    }
-                    updateAuthUI(user);
-                });
-            }
-        } else {
-            console.log('Firebase not available, using local data');
-            displayCars(carsData);
-            displayRecommendedCars();
-        }
-        
-    } catch (error) {
-        console.error('Firebase initialization error:', error);
-        // Fallback ke data lokal
-        displayCars(carsData);
-        displayRecommendedCars();
-    }
+    // Load data
+    displayCars(carsData);
+    displayRecommendedCars();
     
     // Populate car select dropdown
     populateCarSelect();
@@ -631,8 +571,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     setupEventListeners();
 });
 
-// ==================== EXISTING FUNCTIONS (DIMODIFIKASI) ====================
-
 // Display cars in the grid
 function displayCars(cars) {
     if (!carsContainer) return;
@@ -647,7 +585,7 @@ function displayCars(cars) {
     cars.forEach(car => {
         const carCard = document.createElement('div');
         carCard.className = 'car-card';
-        carCard.setAttribute('data-type', car.type || car.category);
+        carCard.setAttribute('data-type', car.type);
         carCard.setAttribute('data-aos', 'fade-up');
         
         carCard.innerHTML = `
@@ -685,14 +623,9 @@ function displayCars(cars) {
 function displayRecommendedCars() {
     if (!recommendedCarsContainer) return;
     
-    // Gunakan data dari Firebase jika ada, atau data lokal
-    const carsToUse = (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) 
-        ? rentalService.cars 
-        : carsData;
-    
-    // Get top 3 most rented cars
-    const recommended = [...carsToUse]
-        .sort((a, b) => (b.rentalCount || 0) - (a.rentalCount || 0))
+    // Get top 3 most featured cars
+    const recommended = carsData
+        .filter(car => car.featured)
         .slice(0, 3);
     
     recommendedCarsContainer.innerHTML = '';
@@ -705,7 +638,7 @@ function displayRecommendedCars() {
             <h4>${car.name}</h4>
             <p>${car.specs.power} • ${car.specs.seats} Seat</p>
             <div class="price">Rp ${car.price.toLocaleString('id-ID')}/hari</div>
-            <small>${car.rentalCount || 0}x disewa</small>
+            <small>Rekomendasi</small>
         `;
         
         recommendedCarsContainer.appendChild(recommendedCar);
@@ -718,19 +651,12 @@ function populateCarSelect() {
     
     carSelect.innerHTML = '<option value="">-- Pilih Mobil --</option>';
     
-    // Gunakan data dari Firebase jika ada, atau data lokal
-    const carsToUse = (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) 
-        ? rentalService.cars 
-        : carsData;
-    
-    if (carsToUse && carsToUse.length > 0) {
-        carsToUse.forEach(car => {
-            const option = document.createElement('option');
-            option.value = car.id;
-            option.textContent = `${car.name} (${car.available} unit tersedia)`;
-            carSelect.appendChild(option);
-        });
-    }
+    carsData.forEach(car => {
+        const option = document.createElement('option');
+        option.value = car.id;
+        option.textContent = `${car.name} (${car.available} unit tersedia)`;
+        carSelect.appendChild(option);
+    });
 }
 
 // Populate review vehicle dropdown
@@ -739,32 +665,20 @@ function populateReviewVehicle() {
     
     reviewVehicle.innerHTML = '<option value="">-- Pilih Kendaraan --</option>';
     
-    // Gunakan data dari Firebase jika ada, atau data lokal
-    const carsToUse = (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) 
-        ? rentalService.cars 
-        : carsData;
-    
-    if (carsToUse && carsToUse.length > 0) {
-        carsToUse.forEach(car => {
-            const option = document.createElement('option');
-            option.value = car.id;
-            option.textContent = car.name;
-            reviewVehicle.appendChild(option);
-        });
-    }
+    carsData.forEach(car => {
+        const option = document.createElement('option');
+        option.value = car.id;
+        option.textContent = car.name;
+        reviewVehicle.appendChild(option);
+    });
 }
 
 // Filter cars by type
 function filterCars(type) {
-    // Gunakan data dari Firebase jika ada, atau data lokal
-    const carsToUse = (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) 
-        ? rentalService.cars 
-        : carsData;
-    
     if (type === 'all') {
-        displayCars(carsToUse);
+        displayCars(carsData);
     } else {
-        const filteredCars = carsToUse.filter(car => (car.type || car.category) === type);
+        const filteredCars = carsData.filter(car => car.type === type);
         displayCars(filteredCars);
     }
 }
@@ -829,14 +743,7 @@ function calculatePrice() {
             return;
         }
         
-        // Cari mobil dari Firebase atau data lokal
-        let selectedCar;
-        if (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) {
-            selectedCar = rentalService.cars.find(car => car.id === selectedCarId);
-        } else {
-            selectedCar = carsData.find(car => car.id === selectedCarId);
-        }
-        
+        const selectedCar = carsData.find(car => car.id === selectedCarId);
         if (!selectedCar) {
             alert('Mobil tidak ditemukan.');
             return;
@@ -934,8 +841,8 @@ function getLocationName(locationValue) {
     return locations[locationValue] || locationValue;
 }
 
-// Send booking to WhatsApp - DIUBAH untuk Firebase
-async function sendWhatsAppBooking() {
+// Send booking to WhatsApp
+function sendWhatsAppBooking() {
     const selectedVehicleType = vehicleType.value;
     let selectedCarId, basePrice, vehicleName;
     
@@ -946,14 +853,7 @@ async function sendWhatsAppBooking() {
             return;
         }
         
-        // Cari mobil dari Firebase atau data lokal
-        let selectedCar;
-        if (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) {
-            selectedCar = rentalService.cars.find(car => car.id === selectedCarId);
-        } else {
-            selectedCar = carsData.find(car => car.id === parseInt(selectedCarId));
-        }
-        
+        const selectedCar = carsData.find(car => car.id === parseInt(selectedCarId));
         if (!selectedCar) {
             alert('Mobil tidak ditemukan.');
             return;
@@ -1026,33 +926,15 @@ async function sendWhatsAppBooking() {
     confirmBookingBtn.disabled = true;
     confirmBookingBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
     
-    try {
-        // Jika Firebase tersedia, gunakan service Firebase
-        if (typeof rentalService !== 'undefined' && typeof rentalService.createBooking === 'function') {
-            const result = await rentalService.createBooking(bookingData);
-            
-            if (result.success) {
-                alert(`Booking berhasil! Kode booking: ${result.bookingCode}`);
-                resetBookingForm();
-            } else {
-                alert(`Booking gagal: ${result.error}`);
-            }
-        } else {
-            // Fallback ke WhatsApp langsung (tanpa Firebase)
-            sendWhatsAppDirect(bookingData, totalPrice);
-        }
-    } catch (error) {
-        console.error('Booking error:', error);
-        // Fallback ke WhatsApp langsung
-        sendWhatsAppDirect(bookingData, totalPrice);
-    }
+    // Kirim WhatsApp
+    sendWhatsAppDirect(bookingData, totalPrice);
     
     // Reset button state
     confirmBookingBtn.disabled = false;
     confirmBookingBtn.innerHTML = '<i class="fab fa-whatsapp"></i> Booking via WhatsApp';
 }
 
-// Fallback WhatsApp function (tanpa Firebase)
+// WhatsApp function
 function sendWhatsAppDirect(bookingData, totalPrice) {
     const message = `Halo LowRen Car's, saya ingin booking kendaraan:
 
@@ -1092,8 +974,8 @@ function resetBookingForm() {
     confirmBookingBtn.disabled = true;
 }
 
-// Submit review - DIUBAH untuk Firebase
-async function submitReview(e) {
+// Submit review
+function submitReview(e) {
     e.preventDefault();
     
     const name = document.getElementById('review-name').value;
@@ -1106,50 +988,14 @@ async function submitReview(e) {
         return;
     }
     
-    // Cari data kendaraan dari Firebase atau data lokal
-    let vehicle;
-    if (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) {
-        vehicle = rentalService.cars.find(car => car.id === vehicleId);
-    } else {
-        vehicle = carsData.find(car => car.id === parseInt(vehicleId));
-    }
+    const vehicle = carsData.find(car => car.id === parseInt(vehicleId));
     
-    const reviewData = {
-        name: name,
-        email: email,
-        vehicle: vehicle ? vehicle.name : 'Kendaraan Lain',
-        rating: selectedRating,
-        message: message,
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`
-    };
-    
-    try {
-        // Jika Firebase tersedia, gunakan service Firebase
-        if (typeof rentalService !== 'undefined' && typeof rentalService.submitReview === 'function') {
-            const result = await rentalService.submitReview(reviewData);
-            
-            if (result.success) {
-                alert('Terima kasih atas review Anda! Review akan ditampilkan setelah moderasi.');
-                reviewForm.reset();
-                resetStarRating();
-            } else {
-                alert('Gagal mengirim review: ' + result.error);
-            }
-        } else {
-            // Fallback: simpan di local storage atau tampilkan pesan
-            alert('Terima kasih atas review Anda! (Mode demo)');
-            reviewForm.reset();
-            resetStarRating();
-        }
-    } catch (error) {
-        console.error('Review submission error:', error);
-        alert('Terima kasih atas review Anda! (Mode demo)');
-        reviewForm.reset();
-        resetStarRating();
-    }
+    alert('Terima kasih atas review Anda! (Mode demo)');
+    reviewForm.reset();
+    resetStarRating();
 }
 
-// ==================== TANPA PERUBAHAN (Fungsi yang tetap sama) ====================
+// ==================== FUNGSI YANG TETAP SAMA ====================
 
 // Testimonial slider
 function initTestimonialSlider() {
@@ -1285,234 +1131,3 @@ function scrollToTop() {
 // Copy promo code
 function copyPromoCode(code) {
     navigator.clipboard.writeText(code).then(() => {
-        alert(`Kode promo "${code}" berhasil disalin!`);
-    });
-}
-
-// Setup event listeners
-function setupEventListeners() {
-    // Filter buttons
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Add active class to clicked button
-            this.classList.add('active');
-            
-            // Filter cars
-            const filter = this.getAttribute('data-filter');
-            filterCars(filter);
-        });
-    });
-    
-    // Vehicle type change
-    if (vehicleType) {
-        vehicleType.addEventListener('change', function() {
-            const carSelectGroup = document.getElementById('car-select-group');
-            if (carSelectGroup) {
-                if (this.value === 'car') {
-                    carSelectGroup.style.display = 'block';
-                } else {
-                    carSelectGroup.style.display = 'none';
-                }
-            }
-        });
-    }
-    
-    // Car select change
-    if (carSelect) {
-        carSelect.addEventListener('change', function() {
-            if (this.value) {
-                const carId = this.value;
-                selectCarForBooking(carId);
-            }
-        });
-    }
-    
-    // Bus select buttons
-    document.querySelectorAll('.select-bus').forEach(button => {
-        button.addEventListener('click', function() {
-            const busType = this.getAttribute('data-type');
-            if (vehicleType) {
-                vehicleType.value = `bus-${busType}`;
-            }
-            
-            // Hide car select
-            const carSelectGroup = document.getElementById('car-select-group');
-            if (carSelectGroup) {
-                carSelectGroup.style.display = 'none';
-            }
-            
-            // Scroll to booking section
-            document.getElementById('booking').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-    
-    // Apply promo button
-    if (applyPromoBtn) {
-        applyPromoBtn.addEventListener('click', applyPromoCode);
-    }
-    
-    // Calculate price button
-    if (calculatePriceBtn) {
-        calculatePriceBtn.addEventListener('click', calculatePrice);
-    }
-    
-    // Confirm booking button (WhatsApp)
-    if (confirmBookingBtn) {
-        confirmBookingBtn.addEventListener('click', sendWhatsAppBooking);
-    }
-    
-    // Contact form submission
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Pesan Anda telah terkirim! Kami akan menghubungi Anda segera.');
-            this.reset();
-        });
-    }
-    
-    // Review form submission
-    if (reviewForm) {
-        reviewForm.addEventListener('submit', submitReview);
-    }
-    
-    // Star rating
-    setupStarRating();
-    
-    // Theme toggle
-    if (themeSwitch) {
-        themeSwitch.addEventListener('change', toggleTheme);
-    }
-    
-    // Scroll to top
-    window.addEventListener('scroll', handleScroll);
-    if (scrollToTopBtn) {
-        scrollToTopBtn.addEventListener('click', scrollToTop);
-    }
-    
-    // Copy promo code buttons
-    document.querySelectorAll('.btn-copy').forEach(button => {
-        button.addEventListener('click', function() {
-            const code = this.getAttribute('data-code');
-            copyPromoCode(code);
-        });
-    });
-    
-    // Mobile menu toggle
-    if (hamburger) {
-        hamburger.addEventListener('click', function() {
-            this.classList.toggle('active');
-            if (navMenu) {
-                navMenu.classList.toggle('active');
-            }
-        });
-    }
-    
-    // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (hamburger) {
-                hamburger.classList.remove('active');
-            }
-            if (navMenu) {
-                navMenu.classList.remove('active');
-            }
-        });
-    });
-    
-    // Filter links in footer
-    document.querySelectorAll('.footer-section a[data-filter]').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const filter = this.getAttribute('data-filter');
-            
-            // Update active filter button
-            filterButtons.forEach(btn => {
-                if (btn.getAttribute('data-filter') === filter) {
-                    btn.click();
-                }
-            });
-            
-            // Scroll to cars section
-            document.getElementById('cars').scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-    
-    // Update return date min based on pickup date
-    if (pickupDate) {
-        pickupDate.addEventListener('change', function() {
-            if (this.value) {
-                const nextDay = new Date(this.value);
-                nextDay.setDate(nextDay.getDate() + 1);
-                if (returnDate) {
-                    returnDate.min = nextDay.toISOString().split('T')[0];
-                    
-                    // If return date is before new min, clear it
-                    if (returnDate.value && new Date(returnDate.value) < nextDay) {
-                        returnDate.value = '';
-                    }
-                    
-                    // Calculate days if both dates are set
-                    if (returnDate.value) {
-                        const pickup = new Date(this.value);
-                        const returnD = new Date(returnDate.value);
-                        const timeDiff = returnD.getTime() - pickup.getTime();
-                        const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-                        if (rentalDays) {
-                            rentalDays.value = daysDiff;
-                        }
-                    }
-                }
-            }
-        });
-    }
-    
-    // Update return date when rental days change
-    if (rentalDays) {
-        rentalDays.addEventListener('change', function() {
-            const days = parseInt(this.value) || 1;
-            if (pickupDate && pickupDate.value) {
-                const returnD = new Date(pickupDate.value);
-                returnD.setDate(returnD.getDate() + days);
-                if (returnDate) {
-                    returnDate.value = returnD.toISOString().split('T')[0];
-                }
-            }
-        });
-    }
-}
-
-// Navbar scroll effect
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('header');
-    if (header) {
-        if (window.scrollY > 100) {
-            header.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
-            header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
-            
-            if (document.body.classList.contains('dark-mode')) {
-                header.style.backgroundColor = 'rgba(45, 52, 54, 0.98)';
-            }
-        } else {
-            header.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-            
-            if (document.body.classList.contains('dark-mode')) {
-                header.style.backgroundColor = 'rgba(45, 52, 54, 0.95)';
-            }
-        }
-    }
-});
-
-// Cleanup ketika page unload
-window.addEventListener('beforeunload', function() {
-    if (typeof rentalService !== 'undefined' && typeof rentalService.cleanup === 'function') {
-        rentalService.cleanup();
-    }
-});
