@@ -534,8 +534,6 @@ let testimonials = [
     }
 ];
 
-// ==================== FIREBASE INTEGRATION ====================
-
 // Auth state management
 function updateAuthUI(user) {
     const authElements = document.querySelectorAll('.auth-element');
@@ -568,7 +566,7 @@ function updateAuthUI(user) {
     }
 }
 
-// Initialize the page dengan Firebase
+// Initialize the page
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Initializing website with Firebase...');
     
@@ -582,10 +580,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         once: true,
         offset: 100
     });
-    
-    // ==================== FIREBASE INITIALIZATION ====================
+  
     try {
-        // Cek jika Firebase tersedia
+        
         if (typeof rentalService !== 'undefined') {
             await rentalService.loadCars();
             await rentalService.loadReviews();
@@ -611,7 +608,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     } catch (error) {
         console.error('Firebase initialization error:', error);
         // Fallback ke data lokal
-        displayCars(carsData);
+        displayCars(carsD data);
         displayRecommendedCars();
     }
     
@@ -630,8 +627,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Setup event listeners
     setupEventListeners();
 });
-
-// ==================== EXISTING FUNCTIONS (DIMODIFIKASI) ====================
 
 // Display cars in the grid
 function displayCars(cars) {
@@ -946,7 +941,7 @@ async function sendWhatsAppBooking() {
             return;
         }
         
-        // Cari mobil dari Firebase atau data lokal
+        // Cari mobil dari atau data lokal
         let selectedCar;
         if (typeof rentalService !== 'undefined' && rentalService.cars && rentalService.cars.length > 0) {
             selectedCar = rentalService.cars.find(car => car.id === selectedCarId);
@@ -1124,7 +1119,7 @@ async function submitReview(e) {
     };
     
     try {
-        // Jika Firebase tersedia, gunakan service Firebase
+        
         if (typeof rentalService !== 'undefined' && typeof rentalService.submitReview === 'function') {
             const result = await rentalService.submitReview(reviewData);
             
